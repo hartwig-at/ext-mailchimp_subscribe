@@ -2,5 +2,7 @@
 if( !defined( 'TYPO3_MODE' ) ) {
 	die( 'Access denied.' );
 }
-Tx_Extbase_Utility_Extension::configurePlugin(  'mailchimp_subscribe',  'Form',  array(    'Form' => ''  ),  array(    'Form' => 'display,subscribe,update'  ));
+Tx_Extbase_Utility_Extension::configurePlugin(  'mailchimp_subscribe',  'Form',  array(    'Form' => 'onPowermailSubmit'  ),  array(    'Form' => 'display,subscribe,update'  ));
+$signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_SignalSlot_Dispatcher');
+$signalSlotDispatcher->connect( 'Tx_Powermail_Controller_FormsController', 'createActionAfterSubmitView', 'Tx_MailchimpSubscribe_Controller_FormController', 'onPowermailSubmitAction', FALSE );
 ?>

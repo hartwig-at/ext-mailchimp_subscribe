@@ -1,7 +1,7 @@
 <?php
 $EM_CONF[$_EXTKEY] = array(
   'title'            => 'MailChimp Subscribe',
-  'description'      => 'Displays a subscription form for Mail Chimp in the FE.',
+  'description'      => 'Displays a subscription form for Mail Chimp in the FE. UNDER DEVELOPMENT! DAILY UPDATES!',
   'category'         => 'fe',
   'author'           => 'Oliver Salzburg',
   'author_email'     => 'oliver@hartwig-at.de',
@@ -16,7 +16,7 @@ $EM_CONF[$_EXTKEY] = array(
   'modify_tables'    => '',
   'clearCacheOnLoad' => 0,
   'lockType'         => '',
-  'version'          => '0.0.2',
+  'version'          => '0.0.3',
   'constraints'      => array(
     'depends'   => array(
       'extbase' => '1.3.0',

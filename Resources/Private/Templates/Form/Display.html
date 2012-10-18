@@ -6,9 +6,17 @@
     <f:debug>{debug}</f:debug>
   </f:if>
 
-  <f:form id="mailchimp-subscribe-form" object="{subscription}" action="{action}" name="subscription">
-    <label for="mailchimp-subscribe-email"><f:translate key="LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang.xml:email_label" /></label>
-    <f:form.textfield id="mailchimp-subscribe-email" property="email" />
-    <f:form.submit id="mailchimp-subscribe-submit" value="{f:translate(key:'LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang.xml:submit',default:'send')}" />
-  </f:form>
+  <f:if condition="{registered} == 1">
+    <f:then>
+      <f:comment>User is already registered</f:comment>
+    </f:then>
+    <f:else>
+      <f:form id="mailchimp-subscribe-form" object="{subscription}" action="{action}" name="subscription">
+        <label for="mailchimp-subscribe-email"><f:translate key="LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang.xml:email_label" /></label>
+        <f:form.textfield id="mailchimp-subscribe-email" property="email" />
+        <f:form.submit id="mailchimp-subscribe-submit" value="{f:translate(key:'LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang.xml:submit',default:'send')}" />
+      </f:form>
+    </f:else>
+  </f:if>
+
 </f:section>

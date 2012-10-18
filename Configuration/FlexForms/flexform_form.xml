@@ -1,4 +1,4 @@
-<T3DataStructure>  <meta>    <langDisable>1</langDisable>  </meta>    <sheets>    <sDEF>      <ROOT>        <TCEforms>         <sheetTitle>General</sheetTitle>        </TCEforms>        <type>array</type>        <el><switchableControllerActions><TCEforms><label>Action</label><config><type>select</type><items>                  <numIndex index="0">                    <numIndex index="0">Display the subscription form</numIndex>                    <numIndex index="1">Form->display;Form->subscribe;Form->update</numIndex>                  </numIndex>                  <numIndex index="1">                    <numIndex index="0">Subscribe to a list</numIndex>                    <numIndex index="1">Form->subscribe;Form->display;Form->update</numIndex>                  </numIndex>                  <numIndex index="2">                    <numIndex index="0">Update a subscription</numIndex>                    <numIndex index="1">Form->update;Form->display;Form->subscribe</numIndex>                  </numIndex></items></config></TCEforms></switchableControllerActions>
+<T3DataStructure>  <meta>    <langDisable>1</langDisable>  </meta>    <sheets>    <sDEF>      <ROOT>        <TCEforms>         <sheetTitle>General</sheetTitle>        </TCEforms>        <type>array</type>        <el><switchableControllerActions><TCEforms><label>Action</label><config><type>select</type><items>                  <numIndex index="0">                    <numIndex index="0">Display the subscription form</numIndex>                    <numIndex index="1">Form->display;Form->subscribe;Form->update;Form->onPowermailSubmit</numIndex>                  </numIndex>                  <numIndex index="1">                    <numIndex index="0">Subscribe to a list</numIndex>                    <numIndex index="1">Form->subscribe;Form->display;Form->update;Form->onPowermailSubmit</numIndex>                  </numIndex>                  <numIndex index="2">                    <numIndex index="0">Update a subscription</numIndex>                    <numIndex index="1">Form->update;Form->display;Form->subscribe;Form->onPowermailSubmit</numIndex>                  </numIndex>                  <numIndex index="3">                    <numIndex index="0"></numIndex>                    <numIndex index="1">Form->onPowermailSubmit;Form->display;Form->subscribe;Form->update</numIndex>                  </numIndex></items></config></TCEforms></switchableControllerActions>
 <settings.apiKey><TCEforms>
 <exclude>0</exclude>
 <label>LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang_db.xml:tx_mailchimpsubscribe_domain_model_flexform.api_key</label>
@@ -8,4 +8,9 @@
 <exclude>0</exclude>
 <label>LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang_db.xml:tx_mailchimpsubscribe_domain_model_flexform.list</label>
 <config>
-<type>input</type></config></TCEforms></settings.list>        </el>      </ROOT>    </sDEF>  </sheets></T3DataStructure>
+<type>input</type></config></TCEforms></settings.list>
+<settings.hideIfListed><TCEforms>
+<exclude>0</exclude>
+<label>LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang_db.xml:tx_mailchimpsubscribe_domain_model_flexform.hide_if_listed</label>
+<config>
+<type>check</type></config></TCEforms></settings.hideIfListed>        </el>      </ROOT>    </sDEF>  </sheets></T3DataStructure>

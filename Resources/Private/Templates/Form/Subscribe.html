@@ -6,5 +6,13 @@
     <f:debug>{debug}</f:debug>
   </f:if>
 
-  <p>{response}</p>
+  <f:if condition="{response-key}">
+    <p><f:translate key='LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang.xml:{response-key}' default='{response-key}' /></p>
+  </f:if>
+  <f:if condition="{response-code}">
+    <span class="mailchimp-subscribe-response-code">Response Code: <pre>{response-code}</pre></span>
+  </f:if>
+  <f:if condition="{response-message}">
+    <p><f:format.html>{response-message}</f:format.html></p>
+  </f:if>
 </f:section>

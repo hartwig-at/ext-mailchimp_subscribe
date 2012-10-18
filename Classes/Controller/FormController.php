@@ -45,6 +45,11 @@ public function subscribeAction($subscription) { return $this->getImplementation
 * @param Tx_MailchimpSubscribe_Domain_Model_Subscription $subscription
 */
 public function updateAction($subscription) { return $this->getImplementation()->updateAction($subscription); }
+/**
+* @param mixed $data
+* @param mixed $object
+*/
+public function onPowermailSubmitAction($data,$object) { return $this->getImplementation()->onPowermailSubmitAction($data,$object); }
 
 }
 require_once('MailchimpSubscribeFormControllerImplementation.php');
