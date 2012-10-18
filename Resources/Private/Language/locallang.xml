@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+  <meta type="array">
+    <type>database</type>
+    <description></description>
+  </meta>
+  <data type="array">
+    <languageKey index="default" type="array">
+      <label index="email_label">subscribe to newsletter</label>
+      <label index="submit">subscribe</label>
+    </languageKey>
+    <languageKey index="de" type="array">
+      <label index="email_label">Newsletter abonnieren</label>
+      <label index="submit">anmelden</label>
+    </languageKey>
+  </data>
+</T3locallang>

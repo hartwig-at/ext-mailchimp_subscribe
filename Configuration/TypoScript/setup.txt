@@ -1,0 +1,16 @@
+plugin.tx_mailchimpsubscribe {
+	view {
+		templateRootPath = {$plugin.tx_mailchimpsubscribe.view.templateRootPath}
+		partialRootPath  = {$plugin.tx_mailchimpsubscribe.view.partialRootPath}
+		layoutRootPath   = {$plugin.tx_mailchimpsubscribe.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_mailchimpsubscribe.persistence.storagePid}
+	}
+	settings {
+	  iconPath = {$plugin.tx_mailchimpsubscribe.settings.iconPath}
+	  example {
+	    // Place your own TS here
+	  }
+	}
+}

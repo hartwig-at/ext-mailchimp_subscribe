@@ -1,0 +1,18 @@
+plugin.tx_mailchimpsubscribe {
+	view {
+		# cat=plugin.tx_mailchimpsubscribe/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:mailchimp_subscribe/Resources/Private/Templates/
+		# cat=plugin.tx_mailchimpsubscribe/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:mailchimp_subscribe/Resources/Private/Partials/
+		# cat=plugin.tx_mailchimpsubscribe/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:mailchimp_subscribe/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin.tx_mailchimpsubscribe//a; type=int+; label=Default storage PID
+		storagePid = 
+	}
+	settings {
+	 # cat=plugin.tx_mailchimpsubscribe/file; type=string; label=Path to file type icons
+    iconPath = EXT:mailchimp_subscribe/Resources/Public/Icons/TypeIcons/
+  }
+}

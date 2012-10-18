@@ -1,0 +1,7 @@
+plugin.tx_mailchimpsubscribe_form {
+	settings {
+	  example {
+	    // Place your own TS here
+	  }
+	}
+}
