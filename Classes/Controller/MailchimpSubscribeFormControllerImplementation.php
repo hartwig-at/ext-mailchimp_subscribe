@@ -52,10 +52,13 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
     $email  = $this->DEFAULT_EMAIL;
     $action = "subscribe";
 
-    /** @var $user Tx_Extbase_Domain_Model_FrontendUser */
-    $user = $this->getFrontendUser();
-    if( NULL != $user ) {
-      $email = $user->getEmail();
+    // Due to some unknown problem, this grabs the wrong FE user sometimes (reason still unknown)
+    if( $this->controller->settings[ "prefillEmail" ] ) {
+      /** @var $user Tx_Extbase_Domain_Model_FrontendUser */
+      $user = $this->getFrontendUser();
+      if( NULL != $user ) {
+        $email = $user->getEmail();
+      }
     }
 
     // If a user is logged in, see if his email is already subscribed
@@ -109,23 +112,6 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
 
     $mailChimpApi = t3lib_extMgm::extPath( "mailchimp_subscribe" ) . "Resources/Private/Php/MCAPI.class.php";
     require_once( $mailChimpApi );
-
-    //API Key - see http://admin.mailchimp.com/account/api
-    $apikey = 'YOUR MAILCHIMP APIKEY';
-
-    // A List Id to run examples against. use lists() to view all
-    // Also, login to MC account, go to List, then List Tools, and look for the List ID entry
-    $listId = 'YOUR MAILCHIMP LIST ID - see lists() method';
-
-    // A Campaign Id to run examples against. use campaigns() to view all
-    $campaignId = 'YOUR MAILCHIMP CAMPAIGN ID - see campaigns() method';
-
-    //some email addresses used in the examples:
-    $my_email       = 'INVALID@example.org';
-    $boss_man_email = 'INVALID@example.com';
-
-    //just used in xml-rpc examples
-    $apiUrl = 'http://api.mailchimp.com/1.3/';
 
     $apikey   = $this->controller->settings[ "apiKey" ];
     $listId   = $this->controller->settings[ "list" ];
@@ -219,15 +205,12 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
 
   /**
    * Validate an email address.
-   * Provide email address (raw input)
-   * Returns true if the email address has the email
-   * address format and the domain exists.
-   *
+   * 
    * @see http://www.linuxjournal.com/article/9585?page=0,3
    *
    * @param $email The email address
    *
-   * @return bool
+   * @return bool true if the email address has the email address format.
    */
   protected static function isEmailValid( $email ) {
     $isValid = true;

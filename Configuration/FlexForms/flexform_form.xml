@@ -13,4 +13,9 @@
 <exclude>0</exclude>
 <label>LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang_db.xml:tx_mailchimpsubscribe_domain_model_flexform.hide_if_listed</label>
 <config>
-<type>check</type></config></TCEforms></settings.hideIfListed>        </el>      </ROOT>    </sDEF>  </sheets></T3DataStructure>
+<type>check</type></config></TCEforms></settings.hideIfListed>
+<settings.prefillEmail><TCEforms>
+<exclude>0</exclude>
+<label>LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang_db.xml:tx_mailchimpsubscribe_domain_model_flexform.prefill_email</label>
+<config>
+<type>check</type></config></TCEforms></settings.prefillEmail>        </el>      </ROOT>    </sDEF>  </sheets></T3DataStructure>
