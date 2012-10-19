@@ -205,7 +205,7 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
 
   /**
    * Validate an email address.
-   * 
+   *
    * @see http://www.linuxjournal.com/article/9585?page=0,3
    *
    * @param $email The email address
