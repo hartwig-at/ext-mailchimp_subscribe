@@ -39,6 +39,8 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
 
   private $DEFAULT_EMAIL = "john.doe@example.org";
 
+  private static $stay = false;
+
   /**
    * Error code constants
    */
@@ -49,20 +51,26 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
   }
 
   public function displayAction( Tx_MailchimpSubscribe_Domain_Model_Subscription $subscription = NULL ) {
-    $email  = $this->DEFAULT_EMAIL;
+    // Use default email if no other can be determined
+    $email = $this->DEFAULT_EMAIL;
+    // Per default, we'll want to invoke the subscribe action when the user subscribes.
     $action = "subscribe";
 
-    // Due to some unknown problem, this grabs the wrong FE user sometimes (reason still unknown)
+    $existingSubscription = NULL;
+
+    if( self::$stay ) return;
+    else self::$stay = true;
+
     if( $this->controller->settings[ "prefillEmail" ] ) {
       /** @var $user Tx_Extbase_Domain_Model_FrontendUser */
       $user = $this->getFrontendUser();
       if( NULL != $user ) {
         $email = $user->getEmail();
+        // If a user is logged in, see if his email is already subscribed
+        $existingSubscription = $this->controller->subscriptionRepository->findOneByEmail( $email );
       }
     }
 
-    // If a user is logged in, see if his email is already subscribed
-    $existingSubscription = $this->controller->subscriptionRepository->findOneByEmail( $email );
     if( NULL != $existingSubscription ) {
       if( $this->controller->settings[ "hideIfListed" ] ) {
         $this->controller->view->assign( "registered", 1 );
@@ -81,11 +89,9 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
       }
 
     } else {
-      if( NULL == $subscription ) {
-        // If no subscription exists and none was provided, create a new one
-        $subscription = new Tx_MailchimpSubscribe_Domain_Model_Subscription();
-        $subscription->setEmail( $email );
-      }
+      // If no subscription exists and none was provided, create a new one
+      $subscription = new Tx_MailchimpSubscribe_Domain_Model_Subscription();
+      $subscription->setEmail( $email );
     }
 
     $this->controller->view->assign( "action", $action );
@@ -106,7 +112,11 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
     // Check if the user provided an email that's already on the list
     $existingSubscription = $this->controller->subscriptionRepository->findOneByEmail( $subscription->getEmail() );
     if( null != $existingSubscription ) {
-      $this->controller->view->assign( "response-key", "already-listed" );
+      if( $this->controller->settings[ "treatExistingAsSuccess" ] ) {
+        $this->controller->view->assign( "response-key", "response-success" );
+      } else {
+        $this->controller->view->assign( "response-key", "already-listed" );
+      }
       return;
     }
 
@@ -160,7 +170,7 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
     // Given that we're being called from Powermail, the $this->controller->settings array
     // contains the settings for PowerMail (we assume this is by-design), we have to grab
     // our own configuration data.
-    $configurationManager = t3lib_div::makeInstance('Tx_Extbase_Configuration_ConfigurationManager');
+    $configurationManager = t3lib_div::makeInstance( "Tx_Extbase_Configuration_ConfigurationManager" );
     $settings = $configurationManager->getConfiguration(
       Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
       "MailchimpSubscribe","Form"
@@ -187,18 +197,54 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
   /**
    * Gets a frontend user which is taken from the global registry or as fallback from TSFE->fe_user.
    *
-   * @throws LogicException
-   * @return  tslib_feUserAuth The current extended frontend user object
+   * @return  Tx_Extbase_Domain_Model_FrontendUser The current extended frontend user object
    */
   protected function getFrontendUser() {
-    if( $GLOBALS[ 'TSFE' ]->fe_user ) {
-      $user         = $GLOBALS[ 'TSFE' ]->fe_user;
-      $feUserId     = $user->user[ 'uid' ];
-      $frontendUser = $this->controller->frontendUserRepository->findOneByUid( $feUserId );
-      if( NULL == $frontendUser ) {
-        throw new LogicException( "\$frontendUser is null \$feUserId is '$feUserId'. Did you set the ExtBase Storage PID for this extension?" );
+
+    /** @var $tsfe tslib_fe */
+    $tsfe = $GLOBALS[ "TSFE" ];
+
+    if( is_object( $tsfe->fe_user ) ) {
+      /** @var $user tslib_feUserAuth */
+      $fe_user = $tsfe->fe_user;
+
+      ob_start();
+      var_dump( $fe_user );
+      $debug_fe_user = ob_get_contents();
+      ob_end_clean();
+
+      $feUserId = $fe_user->user[ 'uid' ];
+
+      if( !$tsfe->loginUser ) {
+        error_log( "2 Trying to look up user while not actually logged in (TEST loginUser) ! UID:" . $feUserId . " DEBUG:" . $debug_fe_user );
+        return null;
       }
+
+      if( !is_numeric( $feUserId ) ) {
+        error_log( "2 Trying to look up user while not actually logged in (TEST feUserId) ! UID:" . $feUserId . " DEBUG:" . $debug_fe_user );
+        return null;
+      }
+
+      /** @var $frontendUser Tx_Extbase_Domain_Model_FrontendUser */
+      $frontendUser = $this->controller->frontendUserRepository->findOneByUid( $feUserId );
+
+      if( null == $frontendUser ) {
+        //throw new LogicException( "\$frontendUser is null \$feUserId is '$feUserId'" );
+        error_log( "2 Frontend User is NULL (TEST frontendUser) ! UID:" . $feUserId . " DEBUG:" . $debug_fe_user );
+        return null;
+      }
+
+      $uid = $frontendUser->getUid();
+      if( $uid != $feUserId ) {
+        error_log( "2 CRITICAL! User ID mismatch (TEST getUid-feUserId) ! UID:" . $feUserId . " RETURNED:" . $uid . " DEBUG:" . $debug_fe_user );
+        return null;
+      }
+
       return $frontendUser;
+
+    } else {
+      // User is not logged in.
+      error_log( "2 user not logged in" );
     }
     return NULL;
   }

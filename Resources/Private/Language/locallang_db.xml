@@ -9,6 +9,7 @@
 <label index="tx_mailchimpsubscribe_domain_model_flexform.list">Unique List ID</label>
 <label index="tx_mailchimpsubscribe_domain_model_flexform.hide_if_listed">Hide form if user is already subscribed.</label>
 <label index="tx_mailchimpsubscribe_domain_model_flexform.prefill_email">Pre-fill email for registered FE users</label>
+<label index="tx_mailchimpsubscribe_domain_model_flexform.treat_existing_as_success">If a user is already subscribed, don't tell him.</label>
 <label index="tx_mailchimpsubscribe_domain_model_subscription"></label>
 <label index="tx_mailchimpsubscribe_domain_model_subscription.email"></label>
 		</languageKey>

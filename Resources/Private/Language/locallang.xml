@@ -6,7 +6,7 @@
   </meta>
   <data type="array">
     <languageKey index="default" type="array">
-      <label index="email_label">subscribe to newsletter</label>
+      <label index="email-label">subscribe to newsletter</label>
       <label index="submit">subscribe</label>
       <label index="already-listed">Seems like you're already on the list :-)</label>
       <label index="invalid-email">I don't think that's a valid email address</label>
@@ -16,7 +16,7 @@
 
     </languageKey>
     <languageKey index="de" type="array">
-      <label index="email_label">Newsletter abonnieren</label>
+      <label index="email-label">Newsletter abonnieren</label>
       <label index="submit">anmelden</label>
       <label index="already-listed">Sie stehen schon auf der Liste :-)</label>
       <label index="invalid-email">Das ist aber keine gültige Email-Adresse</label>

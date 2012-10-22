@@ -18,4 +18,10 @@
 <exclude>0</exclude>
 <label>LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang_db.xml:tx_mailchimpsubscribe_domain_model_flexform.prefill_email</label>
 <config>
-<type>check</type></config></TCEforms></settings.prefillEmail>        </el>      </ROOT>    </sDEF>  </sheets></T3DataStructure>
+<type>check</type></config></TCEforms></settings.prefillEmail>
+<settings.treatExistingAsSuccess><TCEforms>
+<exclude>0</exclude>
+<label>LLL:EXT:mailchimp_subscribe/Resources/Private/Language/locallang_db.xml:tx_mailchimpsubscribe_domain_model_flexform.treat_existing_as_success</label>
+<config>
+<type>check</type>
+<default>1</default></config></TCEforms></settings.treatExistingAsSuccess>        </el>      </ROOT>    </sDEF>  </sheets></T3DataStructure>
