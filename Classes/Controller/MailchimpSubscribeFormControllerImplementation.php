@@ -41,10 +41,7 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
 
   private static $stay = false;
 
-  /**
-   * Error code constants
-   */
-  const List_AlreadySubscribed = 214;
+
 
   public function __construct( $interface ) {
     $this->controller = $interface;
@@ -109,57 +106,29 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
       return;
     }
 
-    // Check if the user provided an email that's already on the list
-    $existingSubscription = $this->controller->subscriptionRepository->findOneByEmail( $subscription->getEmail() );
-    if( null != $existingSubscription ) {
+    /** @var $subscriptionService Tx_MailchimpSubscribe_Service_SubscriptionService */
+    $subscriptionService = t3lib_div::makeInstance( "Tx_MailchimpSubscribe_Service_SubscriptionService" );
+    if( NULL == $subscriptionService ) {
+      $this->controller->view->assign( "response-key", "response-error" );
+      return;
+    }
+
+    try {
+      $subscriptionService->subscribe( $subscription->getEmail() );
+
+    } catch( Tx_MailchimpSubscribe_Exception_AlreadySignedUpException $ex ) {
       if( $this->controller->settings[ "treatExistingAsSuccess" ] ) {
         $this->controller->view->assign( "response-key", "response-success" );
       } else {
         $this->controller->view->assign( "response-key", "already-listed" );
       }
-      return;
+    } catch( Tx_MailchimpSubscribe_Exception_SignUpException $ex ) {
+      $this->controller->view->assign( "response-key", "response-error" );
+      $this->controller->view->assign( "response-code", $ex->code );
+      $this->controller->view->assign( "response-message", $ex->message );
     }
 
-    $mailChimpApi = t3lib_extMgm::extPath( "mailchimp_subscribe" ) . "Resources/Private/Php/MCAPI.class.php";
-    require_once( $mailChimpApi );
-
-    $apikey   = $this->controller->settings[ "apiKey" ];
-    $listId   = $this->controller->settings[ "list" ];
-    $my_email = $subscription->getEmail();
-
-    $api = new MCAPI( $apikey );
-    /*
-    $merge_vars = array('FNAME'=>'Test', 'LNAME'=>'Account',
-                        'GROUPINGS'=>array(
-                          array('name'=>'Your Interests:', 'groups'=>'Bananas,Apples'),
-                          array('id'=>22, 'groups'=>'Trains'),
-                        )
-    );*/
-    $merge_vars = array();
-
-    // By default this sends a confirmation email - you will not see new members
-    // until the link contained in it is clicked!
-    $retval   = $api->listSubscribe( $listId, $my_email, $merge_vars );
-    $response = NULL;
-    if( $api->errorCode ) {
-      if( self::List_AlreadySubscribed == $api->errorCode ) {
-        // User was already on the list. Remember it!
-        $this->controller->subscriptionRepository->add( $subscription );
-        $this->controller->view->assign( "response-key", "response-success" );
-
-      } else {
-        $responseDetails = "Unable to load listSubscribe()! - ";
-        $this->controller->view->assign( "response-key", "response-error" );
-        $this->controller->view->assign( "response-code", $api->errorCode );
-        $this->controller->view->assign( "response-message", $api->errorMessage );
-      }
-
-    } else {
-      // Success! Persist subscription
-      $this->controller->subscriptionRepository->add( $subscription );
-      $this->controller->view->assign( "response-key", "response-success" );
-    }
-
+    $this->controller->view->assign( "response-key", "response-success" );
   }
 
   public function updateAction( Tx_MailchimpSubscribe_Domain_Model_Subscription $subscription ) {
@@ -208,20 +177,16 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
       /** @var $user tslib_feUserAuth */
       $fe_user = $tsfe->fe_user;
 
-      ob_start();
-      var_dump( $fe_user );
-      $debug_fe_user = ob_get_contents();
-      ob_end_clean();
-
-      $feUserId = $fe_user->user[ 'uid' ];
-
+      // Is there actually a user logged in?
       if( !$tsfe->loginUser ) {
-        error_log( "2 Trying to look up user while not actually logged in (TEST loginUser) ! UID:" . $feUserId . " DEBUG:" . $debug_fe_user );
         return null;
       }
 
+      $feUserId = $fe_user->user[ 'uid' ];
+
+      // Do we get a proper user ID?
       if( !is_numeric( $feUserId ) ) {
-        error_log( "2 Trying to look up user while not actually logged in (TEST feUserId) ! UID:" . $feUserId . " DEBUG:" . $debug_fe_user );
+        // The user ID can be empty if Crawler is impersonating a user group.
         return null;
       }
 
@@ -229,14 +194,11 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
       $frontendUser = $this->controller->frontendUserRepository->findOneByUid( $feUserId );
 
       if( null == $frontendUser ) {
-        //throw new LogicException( "\$frontendUser is null \$feUserId is '$feUserId'" );
-        error_log( "2 Frontend User is NULL (TEST frontendUser) ! UID:" . $feUserId . " DEBUG:" . $debug_fe_user );
         return null;
       }
 
       $uid = $frontendUser->getUid();
       if( $uid != $feUserId ) {
-        error_log( "2 CRITICAL! User ID mismatch (TEST getUid-feUserId) ! UID:" . $feUserId . " RETURNED:" . $uid . " DEBUG:" . $debug_fe_user );
         return null;
       }
 
@@ -244,7 +206,6 @@ class MailchimpSubscribeFormControllerImplementation extends Tx_MailchimpSubscri
 
     } else {
       // User is not logged in.
-      error_log( "2 user not logged in" );
     }
     return NULL;
   }

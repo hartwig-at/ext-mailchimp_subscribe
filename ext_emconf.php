@@ -1,7 +1,7 @@
 <?php
 $EM_CONF[$_EXTKEY] = array(
   'title'            => 'MailChimp Subscribe',
-  'description'      => 'Displays a subscription form for Mail Chimp in the FE. UNDER DEVELOPMENT! DAILY UPDATES!',
+  'description'      => 'Displays a subscription form for Mail Chimp in the FE.',
   'category'         => 'fe',
   'author'           => 'Oliver Salzburg',
   'author_email'     => 'oliver@hartwig-at.de',
@@ -9,14 +9,14 @@ $EM_CONF[$_EXTKEY] = array(
   'shy'              => '',
   'priority'         => '',
   'module'           => '',
-  'state'            => 'experimental',
+  'state'            => 'beta',
   'internal'         => '',
   'uploadfolder'     => '0',
   'createDirs'       => '',
   'modify_tables'    => '',
   'clearCacheOnLoad' => 0,
   'lockType'         => '',
-  'version'          => '0.0.5',
+  'version'          => '0.1.0',
   'constraints'      => array(
     'depends'   => array(
       'extbase' => '1.3.0',

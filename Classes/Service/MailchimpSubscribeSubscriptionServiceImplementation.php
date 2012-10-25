@@ -32,6 +32,11 @@ require_once("SubscriptionService.php");
 class MailchimpSubscribeSubscriptionServiceImplementation extends Tx_MailchimpSubscribe_Service_SubscriptionService {
 
   /**
+   * Error code constants
+   */
+  const List_AlreadySubscribed = 214;
+
+  /**
    * @var mixed
    */
   protected $settings = NULL;
@@ -51,14 +56,22 @@ class MailchimpSubscribeSubscriptionServiceImplementation extends Tx_MailchimpSu
   }
 
   public function subscribe( $email ) {
-
     // First of all, make sure to grab our OWN settings. Who knows from what domain we're being invoked.
-    $configurationManager = t3lib_div::makeInstance('Tx_Extbase_Configuration_ConfigurationManager');
+    $configurationManager = t3lib_div::makeInstance( "Tx_Extbase_Configuration_ConfigurationManager" );
     if( NULL === $this->settings ) {
       $this->settings = $configurationManager->getConfiguration(
         Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
         "MailchimpSubscribe","Form"
       );
+    }
+
+    // Check if the user provided an email that's already on the list
+    if( null == $this->subscriptionRepository ) {
+      $this->subscriptionRepository = t3lib_div::makeInstance( "Tx_MailchimpSubscribe_Domain_Repository_SubscriptionRepository" );
+    }
+    $existingSubscription = $this->subscriptionRepository->findOneByEmail( $email );
+    if( NULL != $existingSubscription ) {
+      throw new Tx_MailchimpSubscribe_Exception_AlreadySignedUpException();
     }
 
     $subscription = new Tx_MailchimpSubscribe_Domain_Model_Subscription();
@@ -75,6 +88,13 @@ class MailchimpSubscribeSubscriptionServiceImplementation extends Tx_MailchimpSu
     $my_email = $subscription->getEmail();
 
     $api = new MCAPI( $apikey );
+    /*
+    $merge_vars = array('FNAME'=>'Test', 'LNAME'=>'Account',
+                        'GROUPINGS'=>array(
+                          array('name'=>'Your Interests:', 'groups'=>'Bananas,Apples'),
+                          array('id'=>22, 'groups'=>'Trains'),
+                        )
+    );*/
     $merge_vars = array();
 
     // By default this sends a confirmation email - you will not see new members
@@ -87,12 +107,12 @@ class MailchimpSubscribeSubscriptionServiceImplementation extends Tx_MailchimpSu
         $this->subscriptionRepository->add( $subscription );
 
       } else {
-        return "unexpected error";
+        throw new SignUpException( $api->errorMessage, $api->errorCode );
       }
 
     } else {
       // Success! Persist subscription
-      $this->controller->subscriptionRepository->add( $subscription );
+      $this->subscriptionRepository->add( $subscription );
     }
   }
 }

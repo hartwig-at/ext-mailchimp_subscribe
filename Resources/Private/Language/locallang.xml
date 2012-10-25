@@ -6,13 +6,13 @@
   </meta>
   <data type="array">
     <languageKey index="default" type="array">
-      <label index="email-label">subscribe to newsletter</label>
+      <label index="email-label">subscribe to our newsletter</label>
       <label index="submit">subscribe</label>
       <label index="already-listed">Seems like you're already on the list :-)</label>
       <label index="invalid-email">I don't think that's a valid email address</label>
       <label index="default-email-used">John is already getting enough mail. Why not sign up with your own address? :)</label>
       <label index="response-error">An error occurred while I tried to sign you up. Sorry :(</label>
-      <label index="response-success">Subscribed - look for the confirmation email!</label>
+      <label index="response-success">Thanks for your subscription</label>
 
     </languageKey>
     <languageKey index="de" type="array">
@@ -22,7 +22,7 @@
       <label index="invalid-email">Das ist aber keine gültige Email-Adresse</label>
       <label index="default-email-used">John bekommt schon genug Emails. Tragen Sie doch Ihre Adresse ein :)</label>
       <label index="response-error">Fehler bei der Anmeldung. Sorry :(</label>
-      <label index="response-success">Angemeldet - schauen Sie in Ihr Postfach!</label>
+      <label index="response-success">Vielen Dank für Ihre Anmeldung</label>
 
     </languageKey>
   </data>
