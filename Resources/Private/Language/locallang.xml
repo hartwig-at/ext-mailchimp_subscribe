@@ -13,8 +13,8 @@
       <label index="default-email-used">John is already getting enough mail. Why not sign up with your own address? :)</label>
       <label index="response-error">An error occurred while I tried to sign you up. Sorry :(</label>
       <label index="response-success">Thanks for your subscription</label>
-
     </languageKey>
+
     <languageKey index="de" type="array">
       <label index="email-label">Newsletter abonnieren</label>
       <label index="submit">anmelden</label>
@@ -23,7 +23,17 @@
       <label index="default-email-used">John bekommt schon genug Emails. Tragen Sie doch Ihre Adresse ein :)</label>
       <label index="response-error">Fehler bei der Anmeldung. Sorry :(</label>
       <label index="response-success">Vielen Dank für Ihre Anmeldung</label>
-
     </languageKey>
+
+    <languageKey index="fr" type="array">
+      <label index="email-label">Abonner la newsletter</label>
+      <label index="submit">abonner</label>
+      <label index="already-listed">Vous êtes déjà sur la liste</label>
+      <label index="invalid-email">Ceci n'est pas une adresse email valide</label>
+      <label index="default-email-used">John reçoit déjà assez d'emails. Mettez plutôt votre adresse email</label>
+      <label index="response-error">Désolé, erreur dans l'inscription</label>
+      <label index="response-success">Merci pour votre inscription</label>
+    </languageKey>
+
   </data>
 </T3locallang>
