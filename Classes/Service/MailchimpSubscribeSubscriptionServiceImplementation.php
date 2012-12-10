@@ -107,7 +107,7 @@ class MailchimpSubscribeSubscriptionServiceImplementation extends Tx_MailchimpSu
         $this->subscriptionRepository->add( $subscription );
 
       } else {
-        throw new SignUpException( $api->errorMessage, $api->errorCode );
+        throw new Tx_MailchimpSubscribe_Exception_SignUpException( $api->errorMessage, $api->errorCode );
       }
 
     } else {

@@ -1,5 +1,5 @@
 <?php
-class Tx_MailchimpSubscribe_Service_SubscriptionService {
+class Tx_MailchimpSubscribe_Service_SubscriptionService extends Tx_Extbase_MVC_Controller_ActionController {
 private $implementation;
 private function getImplementation() {
   if( null == $this->implementation ) {
