@@ -1,14 +1,5 @@
 <?php
-class Tx_MailchimpSubscribe_Controller_FormController extends Tx_Extbase_MVC_Controller_ActionController {
-private $implementation;
-private function getImplementation() {
-  if( null == $this->implementation ) {
-    $this->implementation = new MailchimpSubscribeFormControllerImplementation($this);
-  }
-  return $this->implementation;
-}
-function __construct() {
-}
+class Tx_MailchimpSubscribe_Controller_FormController extends Tx_Extbase_MVC_Controller_ActionController  {private $implementation;private function getImplementation() {  if( null == $this->implementation ) {    $this->implementation = new MailchimpSubscribeFormControllerImplementation($this);  }  return $this->implementation;}function __construct() {parent::__construct();}
 /**
 * frontendUserRepository
 * @var Tx_Extbase_Domain_Repository_FrontendUserRepository
@@ -33,7 +24,6 @@ protected $subscriptionRepository;
 public function injectSubscriptionRepository(Tx_MailchimpSubscribe_Domain_Repository_SubscriptionRepository $subscriptionRepository) {
   $this->subscriptionRepository = $subscriptionRepository;
 }
-
 /**
 */
 public function displayAction() { return $this->getImplementation()->displayAction(); }
@@ -50,8 +40,5 @@ public function updateAction($subscription) { return $this->getImplementation()-
 * @param mixed $object
 */
 public function onPowermailSubmitAction($data,$object) { return $this->getImplementation()->onPowermailSubmitAction($data,$object); }
-
-}
-require_once('MailchimpSubscribeFormControllerImplementation.php');
-
+}require_once('MailchimpSubscribeFormControllerImplementation.php');
 ?>

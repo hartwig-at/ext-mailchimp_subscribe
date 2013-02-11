@@ -7,6 +7,8 @@
 	<data type="array">
 		<languageKey index="default" type="array"><label index="form_title">Subscription Form</label>
 <label index="form_plus_wiz_description">Description for Subscription Form</label>
+<label index="resetsubscriptions.name">Reset subscriptions locally</label>
+<label index="resetsubscriptions.description">Clears old subscriptions from the local cache.</label>
 		</languageKey>
 	</data>
 </T3locallang>

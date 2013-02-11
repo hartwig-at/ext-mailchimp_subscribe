@@ -1,5 +1,4 @@
-# EXT:mailchimp_subscribe  
-Author: Oliver Salzburg (oliver.salzburg@gmail.com) - Hartwig Communication & Events
+# EXT:mailchimp_subscribeAuthor: Oliver Salzburg (oliver.salzburg@gmail.com) - Hartwig Communication & Events
 
 ## Introduction
 `EXT:mailchimp_subscribe` provides a simple FE plugin that displays a form that allows a user to subscribe himself to a predefined MailChimp list.
@@ -14,7 +13,6 @@ The extension is currently under development and is updated frequently.
 
 ## How to use
 There's two ways in which using `EXT:mailchimp_subscribe` makes sense.
-
 1. Frontend Content Element
    For when you need a subscription form on a single page for a specific list.
 
@@ -54,13 +52,13 @@ One day, that may be part of the extension...
 In fact, if you're using Powermail2 on your site, `EXT:mailchimp_subscribe` will automatically interface with it.
 You just need to tell the extension in which form fields the email address and the confirmation checkbox are contained. Like so:
 
-    plugin.tx_mailchimpsubscribe {
-      settings {
-        apiKey = e2a7b9997caa5640206388a0f583a0b6-us5
-        list   = c3877ee6db
-        powermail {
-          emailInputId         = 8
-          newsletterCheckboxId = 76
-        }
+  plugin.tx_mailchimpsubscribe {
+    settings {
+      apiKey = e2a7b9997caa5640206388a0f583a0b6-us5
+      list   = c3877ee6db
+      powermail {
+        emailInputId         = 8
+        newsletterCheckboxId = 76
       }
     }
+  }
