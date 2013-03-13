@@ -9,12 +9,6 @@
       <f:comment>User is already registered</f:comment>
     </f:then>
     <f:else>
-      <script lang="javascript">
-        $( document ).ready( function() {
-          $( "#mailchimp-subscribe-email" ).focus( function() { $( this ).select(); } );
-          $( "#mailchimp-subscribe-email" ).mouseup( function( e ) { e.preventDefault(); } );
-        } );
-      </script>
       <f:form id="mailchimp-subscribe-form" object="{subscription}" action="{action}" name="subscription">
         <label for="mailchimp-subscribe-email"><f:translate key="email-label" default="email-label" /></label>
         <f:form.textfield id="mailchimp-subscribe-email" property="email" />
