@@ -11,8 +11,4 @@ plugin.tx_mailchimpsubscribe {
 		# cat=plugin.tx_mailchimpsubscribe//a; type=int+; label=Default storage PID
 		storagePid = 
 	}
-	settings {
-	 # cat=plugin.tx_mailchimpsubscribe/file; type=string; label=Path to file type icons
-    iconPath = EXT:mailchimp_subscribe/Resources/Public/Icons/TypeIcons/
-  }
 }

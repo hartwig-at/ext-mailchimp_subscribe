@@ -7,10 +7,4 @@ plugin.tx_mailchimpsubscribe {
 	persistence {
 		storagePid = {$plugin.tx_mailchimpsubscribe.persistence.storagePid}
 	}
-	settings {
-	  iconPath = {$plugin.tx_mailchimpsubscribe.settings.iconPath}
-	  example {
-	    // Place your own TS here
-	  }
-	}
 }
